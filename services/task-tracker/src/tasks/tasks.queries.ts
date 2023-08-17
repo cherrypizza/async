@@ -53,6 +53,7 @@ export class TasksQueries {
     return this.knex('tasks.tasks')
       .insert(data)
       .onConflict('id')
-      .merge(['executor']);
+      .merge(['executor'])
+      .returning('*');
   }
 }
