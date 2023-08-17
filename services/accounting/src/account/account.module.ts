@@ -1,36 +1,34 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
-import { TasksController } from './tasks.controller';
-import { TasksService } from './tasks.service';
+import { AccountController } from './account.controller';
+import { AccountService } from './account.service';
+import { AccountQueries } from './account.queries';
 import { KnexModule } from '../knex';
-import { TasksQueries } from './tasks.queries';
 import { AuthModule } from '../auth';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
-    KnexModule,
     AuthModule,
+    KnexModule,
     ClientsModule.register([
       {
-        name: 'TASKS_SERVICE',
+        name: 'ACCOUNTING_SERVICE',
         transport: Transport.KAFKA,
         options: {
           client: {
-            clientId: 'tasks',
+            clientId: 'accounting',
             brokers: ['localhost:9092'],
           },
           producerOnlyMode: true,
           consumer: {
-            groupId: 'tasks-consumer',
+            groupId: 'accounting-consumer',
           },
         },
       },
     ]),
   ],
-  controllers: [TasksController],
-  providers: [TasksService, TasksQueries],
+  providers: [AccountService, AccountQueries],
+  controllers: [AccountController],
 })
-export class TasksModule {}
+export class AccountModule {}
