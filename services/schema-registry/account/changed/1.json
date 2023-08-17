@@ -1,0 +1,24 @@
+{
+  "type": "record",
+  "name": "accountChanged",
+  "fields": [
+    { "name": "event_id", "type": "string" },
+    { "name": "producer", "type": "string" },
+    { "name": "event_name", "type": "string" },
+    {
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "accountChangedData",
+        "fields": [
+          { "name": "public_id", "type": "string" },
+          { "name": "user", "type": "string" },
+          { "name": "date", "type": "string" },
+          { "name": "balance_start", "type": "string" },
+          { "name": "balance_end", "type": "string" },
+          { "name": "pay", "type": "string" }
+        ]
+      }
+    }
+  ]
+}

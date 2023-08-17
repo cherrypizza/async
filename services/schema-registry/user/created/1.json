@@ -1,0 +1,9 @@
+{
+  "type": "record",
+  "name": "userCreated",
+  "fields": [
+    { "name": "public_id", "type": "string" },
+    { "name": "login", "type": "string" },
+    { "name": "role", "type": "string" }
+  ]
+}

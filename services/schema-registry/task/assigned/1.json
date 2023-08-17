@@ -1,0 +1,22 @@
+{
+  "type": "record",
+  "name": "taskAssigned",
+  "fields": [
+    { "name": "event_id", "type": "string" },
+    { "name": "producer", "type": "string" },
+    { "name": "event_name", "type": "string" },
+    { "name": "event_date", "type": "string" },
+    {
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "taskAssignedData",
+        "fields": [
+          { "name": "task", "type": "string" },
+          { "name": "user", "type": "string" },
+          { "name": "price", "type": "string" }
+        ]
+      }
+    }
+  ]
+}

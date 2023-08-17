@@ -1,8 +1,14 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
+import { v4 } from 'uuid';
 
 import { UsersQueries } from './users.queries';
+import { validateEvent } from '../helper';
+
 import { User, UserDto } from './interfaces';
+
+const EVENT = 'user.created';
+const EVENT_VERSION = 2;
 
 @Injectable()
 export class UsersService {
@@ -17,8 +23,22 @@ export class UsersService {
 
   public async createUser(data: UserDto): Promise<User> {
     const [user] = await this.usersQueries.createUser(data);
+    const eventData = {
+      event_id: v4(),
+      producer: 'auth_service',
+      event_name: 'userCreated',
+      data: {
+        public_id: user.public_id,
+        login: user.login,
+        role: user.role,
+      },
+    };
 
-    this.kafkaClient.emit('users_stream', user);
+    if (validateEvent(eventData, EVENT, EVENT_VERSION)) {
+      this.kafkaClient.emit('users-stream', eventData);
+    } else {
+      throw new Error(`not valid: ${JSON.stringify(eventData)}`);
+    }
 
     return user;
   }

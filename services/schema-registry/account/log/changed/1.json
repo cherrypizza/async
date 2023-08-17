@@ -1,0 +1,23 @@
+{
+  "type": "record",
+  "name": "accountLogChanged",
+  "fields": [
+    { "name": "event_id", "type": "string" },
+    { "name": "producer", "type": "string" },
+    { "name": "event_name", "type": "string" },
+    {
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "accountLogChangedData",
+        "fields": [
+          { "name": "public_id", "type": "string" },
+          { "name": "user", "type": "string" },
+          { "name": "task", "type": "string" },
+          { "name": "created", "type": "string" },
+          { "name": "price", "type": "string" }
+        ]
+      }
+    }
+  ]
+}
